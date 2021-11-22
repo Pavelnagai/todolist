@@ -18,16 +18,9 @@ function App() {
         {id: 2, title: "CSS", isDone: true},
         {id: 3, title: "REACT", isDone: false},
     ])
-    // const tasks = result[0]
-    // const setTasks = result[1]
     const [filter, setFilter] = useState<FilterValuesType>("all")
-    const removeTask = (tasksID: number) => {
-        setTasks(tasks.filter(task => task.id !== tasksID))
-        console.log(tasks)
-    }
-    const changeFilter = (filter: FilterValuesType) => {
-        setFilter(filter)
-    }
+    const removeTask = (tasksID: number) => setTasks(tasks.filter(task => task.id !== tasksID))
+    const changeFilter = (filter: FilterValuesType) => setFilter(filter)
 
     let tasksForRender = tasks
     if (filter === "active") {
