@@ -1,5 +1,6 @@
 import React, {ChangeEvent,KeyboardEvent, useState} from 'react';
 import {FilterValuesType, TaskType} from "./App";
+import {Button} from "./components/Button";
 
 type PropsType = {
     title: string
@@ -20,9 +21,12 @@ const TodoList = (props: PropsType) => {
         if (e.key === "Enter") {
             addTask()
         }}
-    const onClickAllHandler = () => props.changeFilter("all")
-    const onClickActiveHandler = () => props.changeFilter("active")
-    const onClickCompletedHandler = () => props.changeFilter("completed")
+    // const onClickAllHandler = () => props.changeFilter("all")
+    // const onClickActiveHandler = () => props.changeFilter("active")
+    // const onClickCompletedHandler = () => props.changeFilter("completed")
+    const tsarButton = (value: FilterValuesType) => {
+        props.changeFilter(value)
+    }
     const tasksJSX = props.tasks.map(task => {
         return (
             <li key={task.id}>
@@ -47,9 +51,12 @@ const TodoList = (props: PropsType) => {
                 {tasksJSX}
             </ul>
             <div>
-                <button onClick={onClickAllHandler}>All</button>
-                <button onClick={onClickActiveHandler}>Active</button>
-                <button onClick={onClickCompletedHandler}>Completed</button>
+                {/*<button onClick={() => {tsarButton('all')}}>All</button>*/}
+                {/*<button onClick={onClickActiveHandler}>Active</button>*/}
+                {/*<button onClick={onClickCompletedHandler}>Completed</button>*/}
+                <Button name={'All'} callback={()  => {tsarButton('all')}}/>
+                <Button name={'Active'} callback={()  => {tsarButton('active')}}/>
+                <Button name={'Completed'} callback={()  => {tsarButton('completed')}}/>
             </div>
         </div>
     )
