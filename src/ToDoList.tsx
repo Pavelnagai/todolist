@@ -1,6 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType, TaskType} from "./App";
-import {Button} from "./components/Button";
 
 type PropsType = {
     title: string
@@ -9,8 +8,9 @@ type PropsType = {
     changeFilter: (filter: FilterValuesType) => void
     addTask: (newTaskTitle: string) => void
     changeTaskStatus: (taskID: string, isDone: boolean) => void
-    // filter: FilterValuesType
+    filter: FilterValuesType
 }
+
 
 const TodoList = (props: PropsType) => {
     const [title, setTitle] = useState<string>("")
@@ -36,7 +36,6 @@ const TodoList = (props: PropsType) => {
     const tsarButton = (value: FilterValuesType) => {
         props.changeFilter(value)
     }
-
     const tasksJSX = props.tasks.map(task => {
         const changeStatus = (e: React.ChangeEvent<HTMLInputElement>) =>
             props.changeTaskStatus(task.id, e.currentTarget.checked)
@@ -53,7 +52,6 @@ const TodoList = (props: PropsType) => {
     })
     const errorMessage = <div style={{color: 'red'}}>Title is required</div>
     const errorClass = error ? 'error' : ''
-
     return (
         <div>
             <h3>{props.title}</h3>
@@ -71,15 +69,15 @@ const TodoList = (props: PropsType) => {
                 {tasksJSX}
             </ul>
             <div>
-                <Button filter={'all'} name={'all'} callback={() => {
-                    tsarButton('all')
-                }}/>
-                <Button filter={'active'} name={'active'} callback={() => {
-                    tsarButton('active')
-                }}/>
-                <Button filter={'completed'} name={'completed'} callback={() => {
-                    tsarButton('completed')
-                }}/>
+                <button className={props.filter === 'all'? 'active-filter' : ''}
+                        onClick={() => tsarButton('all')}>All
+                </button>
+                <button className={props.filter === 'active' ? 'active-filter' : ''}
+                        onClick={() => tsarButton('active')}>Active
+                </button>
+                <button className={props.filter === 'completed' ? 'active-filter' : ''}
+                        onClick={() => tsarButton('completed')}>Completed
+                </button>
             </div>
         </div>
     )
