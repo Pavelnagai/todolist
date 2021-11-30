@@ -36,6 +36,7 @@ const TodoList = (props: PropsType) => {
     const tsarButton = (value: FilterValuesType) => {
         props.changeFilter(value)
     }
+    const classNameFilter = (filter: FilterValuesType) => props.filter === filter ? 'active-filter' : ''
     const tasksJSX = props.tasks.map(task => {
         const changeStatus = (e: React.ChangeEvent<HTMLInputElement>) =>
             props.changeTaskStatus(task.id, e.currentTarget.checked)
@@ -69,13 +70,13 @@ const TodoList = (props: PropsType) => {
                 {tasksJSX}
             </ul>
             <div>
-                <button className={props.filter === 'all'? 'active-filter' : ''}
+                <button className={classNameFilter('all')}
                         onClick={() => tsarButton('all')}>All
                 </button>
-                <button className={props.filter === 'active' ? 'active-filter' : ''}
+                <button className={classNameFilter('active')}
                         onClick={() => tsarButton('active')}>Active
                 </button>
-                <button className={props.filter === 'completed' ? 'active-filter' : ''}
+                <button className={classNameFilter('completed')}
                         onClick={() => tsarButton('completed')}>Completed
                 </button>
             </div>
