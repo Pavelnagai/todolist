@@ -4,11 +4,12 @@ import {FilterValuesType, TaskType} from "./App";
 type PropsType = {
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskID: string) => void
-    changeFilter: (filter: FilterValuesType) => void
-    addTask: (newTaskTitle: string) => void
-    changeTaskStatus: (taskID: string, isDone: boolean) => void
+    removeTask: (todolistId: string, taskID: string) => void
+    changeFilter: (todolistId: string, filter: FilterValuesType) => void
+    addTask: (todolistId: string, newTaskTitle: string) => void
+    changeTaskStatus: (todolistId: string, taskID: string, isDone: boolean) => void
     filter: FilterValuesType
+    todolistId: string
 }
 
 
@@ -18,7 +19,7 @@ const TodoList = (props: PropsType) => {
     const addTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
-            props.addTask(trimmedTitle)
+            props.addTask(props.todolistId, trimmedTitle)
         } else {
             setError(true)
         }
@@ -33,14 +34,14 @@ const TodoList = (props: PropsType) => {
             addTask()
         }
     }
-    const tsarButton = (value: FilterValuesType) => {
-        props.changeFilter(value)
+    const tsarButton = (todolistId: string, value: FilterValuesType) => {
+        props.changeFilter(props.todolistId,value)
     }
     const classNameFilter = (filter: FilterValuesType) => props.filter === filter ? 'active-filter' : ''
     const tasksJSX = props.tasks.map(task => {
         const changeStatus = (e: React.ChangeEvent<HTMLInputElement>) =>
-            props.changeTaskStatus(task.id, e.currentTarget.checked)
-        const removeTask = () => props.removeTask(task.id)
+            props.changeTaskStatus(props.todolistId,task.id, e.currentTarget.checked)
+        const removeTask = () => props.removeTask(props.todolistId, task.id)
         return (
             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                 <input type="checkbox"
@@ -71,13 +72,13 @@ const TodoList = (props: PropsType) => {
             </ul>
             <div>
                 <button className={classNameFilter('all')}
-                        onClick={() => tsarButton('all')}>All
+                        onClick={() => tsarButton(props.todolistId,'all')}>All
                 </button>
                 <button className={classNameFilter('active')}
-                        onClick={() => tsarButton('active')}>Active
+                        onClick={() => tsarButton(props.todolistId,'active')}>Active
                 </button>
                 <button className={classNameFilter('completed')}
-                        onClick={() => tsarButton('completed')}>Completed
+                        onClick={() => tsarButton(props.todolistId,'completed')}>Completed
                 </button>
             </div>
         </div>
