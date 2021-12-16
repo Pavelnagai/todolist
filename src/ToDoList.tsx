@@ -2,6 +2,7 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from './App';
 import Input from "./components/Input";
 import EditableSpan from "./components/EditableSpan";
+import {Button} from "@mui/material";
 
 export type TaskType = {
     id: string
@@ -26,11 +27,9 @@ type PropsType = {
 export function Todolist(props: PropsType) {
 
     const removeTodolist = () => props.removeTodolist(props.id)
-
     const onAllClickHandler = () => props.changeFilter("all", props.id);
     const onActiveClickHandler = () => props.changeFilter("active", props.id);
     const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
-
     const callbackHandler=(title: string)=>{
         props.addTask(title,props.id)
     }
@@ -47,7 +46,9 @@ export function Todolist(props: PropsType) {
         <h3>
             {/*{props.title}*/}
             <EditableSpan title={props.title} callBackForEditableSpan={callBackForEditableSpanShapkaHandler}/>
-            <button onClick={removeTodolist}>x</button>
+            {/*<button onClick={removeTodolist}>x</button>*/}
+            <Button variant="contained" onClick={removeTodolist}>x</Button>
+
         </h3>
         <div>
             <Input callback={callbackHandler}/>
