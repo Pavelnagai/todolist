@@ -2,7 +2,11 @@ import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from './App';
 import Input from "./components/Input";
 import EditableSpan from "./components/EditableSpan";
-import {Button} from "@mui/material";
+import {Button, IconButton, Tooltip} from "@mui/material";
+import {DeleteRounded} from "@mui/icons-material";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
+
 
 export type TaskType = {
     id: string
@@ -47,12 +51,18 @@ export function Todolist(props: PropsType) {
             {/*{props.title}*/}
             <EditableSpan title={props.title} callBackForEditableSpan={callBackForEditableSpanShapkaHandler}/>
             {/*<button onClick={removeTodolist}>x</button>*/}
-            <Button variant="contained" onClick={removeTodolist}>x</Button>
-
+            {/*<Button variant="contained" onClick={removeTodolist}>x</Button>*/}
+            <Tooltip title="Delete">
+                <IconButton>
+                    <DeleteRounded onClick={removeTodolist} />
+                </IconButton>
+            </Tooltip>
         </h3>
         <div>
             <Input callback={callbackHandler}/>
-                </div>
+            {/*<TextField id="filled-basic" label="Filled" variant="filled" callback={callbackHandler}/>*/}
+
+        </div>
         <ul>
             {
                 props.tasks.map(t => {
@@ -67,23 +77,27 @@ export function Todolist(props: PropsType) {
 
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
                         <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
+                        {/*<CheckBoxIcon />*/}
                         {/*<span>{t.title}</span>*/}
                         <EditableSpan title={t.title} callBackForEditableSpan={callBackForEditableSpanHandler}/>
-                        <button onClick={onClickHandler}>x</button>
+                        {/*<button onClick={onClickHandler}>x</button>*/}
+                        <Tooltip title="Delete">
+                            <IconButton>
+                                <DeleteRounded onClick={onClickHandler} />
+                            </IconButton>
+                        </Tooltip>
                     </li>
                 })
             }
         </ul>
         <div>
-            <button className={props.filter === 'all' ? "active-filter" : ""}
-                    onClick={onAllClickHandler}>All
-            </button>
-            <button className={props.filter === 'active' ? "active-filter" : ""}
-                    onClick={onActiveClickHandler}>Active
-            </button>
-            <button className={props.filter === 'completed' ? "active-filter" : ""}
-                    onClick={onCompletedClickHandler}>Completed
-            </button>
+            <Button variant="contained" className={props.filter === 'all' ? "active-filter" : ""}
+                    onClick={onAllClickHandler} size={"small"}>All</Button>
+            <Button variant="contained" className={props.filter === 'active' ? "active-filter" : ""}
+                    onClick={onActiveClickHandler} size={"small"}>Active</Button>
+            <Button variant="contained" className={props.filter === 'completed' ? "active-filter" : ""}
+                    onClick={onCompletedClickHandler} size={"small"}>Completed</Button>
+
         </div>
     </div>
 }

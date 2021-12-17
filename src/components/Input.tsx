@@ -1,10 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Icon} from "@mui/material";
+import {green} from "@mui/material/colors";
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
-type typeProps={
-    callback:(title: string)=>void
+type typeProps = {
+    callback: (title: string) => void
 }
 
-const Input = (props:typeProps) => {
+const Input = (props: typeProps) => {
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
@@ -37,7 +40,24 @@ const Input = (props:typeProps) => {
                 onKeyPress={onKeyPressHandler}
                 className={error ? "error" : ""}
             />
-            <button onClick={addTask}>+</button>
+            {/*<TextField*/}
+            {/*    id="filled-basic"  variant="filled"*/}
+            {/*           value={title}*/}
+            {/*           onChange={onChangeHandler}*/}
+            {/*           onKeyPress={onKeyPressHandler}*/}
+            {/*           className={error ? "error" : ""}/>*/}
+
+            {/*<button onClick={addTask}>+</button>*/}
+
+            <Icon color="primary" onClick={addTask}>
+                <AddTaskIcon/>
+            </Icon>
+            {/*<Icon*/}
+            {/*    baseClassName="fas"*/}
+            {/*    className="fa-plus-circle"*/}
+            {/*    sx={{color: green[500]}}*/}
+            {/*/>*/}
+
             {error && <div className="error-message">{error}</div>}
         </div>
     );
