@@ -5,13 +5,12 @@ import {v1} from 'uuid';
 import Input from "./components/Input";
 
 export type FilterValuesType = "all" | "active" | "completed";
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
-
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -24,7 +23,6 @@ function App() {
         {id: todolistId1, title: "What to learn", filter: "all"},
         {id: todolistId2, title: "What to buy", filter: "all"}
     ])
-
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistId1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
@@ -36,15 +34,13 @@ function App() {
         ]
     });
 
-    const updateTodolist=(todolistId: string,LocalTitle:string)=>{
-        setTodolists(todolists.map(m=>m.id===todolistId ? {...m,title:LocalTitle}:m))
+    const updateTodolist = (todolistId: string, LocalTitle: string) => {
+        setTodolists(todolists.map(m => m.id === todolistId ? {...m, title: LocalTitle} : m))
     }
-
-    const updateTask = (todolistId: string,id: string,LocalTitle:string) => {
-        setTasks({...tasks, [todolistId]:tasks[todolistId].map(m=>m.id===id ? {...m,title:LocalTitle} : m)})
+    const updateTask = (todolistId: string, id: string, LocalTitle: string) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(m => m.id === id ? {...m, title: LocalTitle} : m)})
         console.log(LocalTitle)
     }
-
     function removeTask(id: string, todolistId: string) {
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
@@ -80,7 +76,6 @@ function App() {
             setTasks({...tasks});
         }
     }
-
     function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id === todolistId);
         if (todolist) {
@@ -88,7 +83,6 @@ function App() {
             setTodolists([...todolists])
         }
     }
-
     function removeTodolist(id: string) {
         // засунем в стейт список тудулистов, id которых не равны тому, который нужно выкинуть
         setTodolists(todolists.filter(tl => tl.id != id));
