@@ -1,11 +1,9 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import Input from "./components/Input";
 import EditableSpan from "./components/EditableSpan";
 import {Button, IconButton, Tooltip} from "@mui/material";
 import {DeleteRounded} from "@mui/icons-material";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 
 
 export type TaskType = {
@@ -13,7 +11,6 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
-
 type PropsType = {
     id: string
     title: string
@@ -24,8 +21,8 @@ type PropsType = {
     changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
     removeTodolist: (id: string) => void
     filter: FilterValuesType
-    updateTask:(todolistId: string,id: string,LocalTitle:string)=>void
-    updateTodolist:(todolistId: string,LocalTitle:string)=>void
+    updateTask: (todolistId: string, id: string, LocalTitle: string) => void
+    updateTodolist: (todolistId: string, LocalTitle: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -34,16 +31,16 @@ export function Todolist(props: PropsType) {
     const onAllClickHandler = () => props.changeFilter("all", props.id);
     const onActiveClickHandler = () => props.changeFilter("active", props.id);
     const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
-    const callbackHandler=(title: string)=>{
-        props.addTask(title,props.id)
+    const callbackHandler = (title: string) => {
+        props.addTask(title, props.id)
     }
 
     // const callBackForEditableSpanHandler=(title: string)=>{
     //     props.updateTask(props.id,t.id,LocalTitle:string)
     // }
 
-    const callBackForEditableSpanShapkaHandler=(title: string)=>{
-        props.updateTodolist(props.id,title)
+    const callBackForEditableSpanShapkaHandler = (title: string) => {
+        props.updateTodolist(props.id, title)
     }
 
     return <div>
@@ -54,7 +51,7 @@ export function Todolist(props: PropsType) {
             {/*<Button variant="contained" onClick={removeTodolist}>x</Button>*/}
             <Tooltip title="Delete">
                 <IconButton>
-                    <DeleteRounded onClick={removeTodolist} />
+                    <DeleteRounded onClick={removeTodolist}/>
                 </IconButton>
             </Tooltip>
         </h3>
@@ -71,8 +68,8 @@ export function Todolist(props: PropsType) {
                         let newIsDoneValue = e.currentTarget.checked;
                         props.changeTaskStatus(t.id, newIsDoneValue, props.id);
                     }
-                    const callBackForEditableSpanHandler=(title: string)=>{
-                        props.updateTask(props.id,t.id,title)
+                    const callBackForEditableSpanHandler = (title: string) => {
+                        props.updateTask(props.id, t.id, title)
                     }
 
                     return <li key={t.id} className={t.isDone ? "is-done" : ""}>
@@ -83,7 +80,7 @@ export function Todolist(props: PropsType) {
                         {/*<button onClick={onClickHandler}>x</button>*/}
                         <Tooltip title="Delete">
                             <IconButton>
-                                <DeleteRounded onClick={onClickHandler} />
+                                <DeleteRounded onClick={onClickHandler}/>
                             </IconButton>
                         </Tooltip>
                     </li>
