@@ -2,18 +2,18 @@ import React, {ChangeEvent, useState} from 'react';
 
 type propsType = {
     title: string
-    callBackForEditableSpan:(LocalTitle:string)=>void
+    callBackForEditableSpan: (LocalTitle: string) => void
 }
 
 const EditableSpan = (props: propsType) => {
     const [edit, setEdit] = useState(false)
     let [LocalTitle, setLocalTitle] = useState(props.title)
 
-    const onDoubleClickHandlerTRUE=()=>{
+    const onDoubleClickHandlerTRUE = () => {
         setEdit(true)
     }
 
-    const onBlurHandlerFALSE=()=>{
+    const onBlurHandlerFALSE = () => {
         setEdit(false)
         props.callBackForEditableSpan(LocalTitle)
     }
@@ -24,7 +24,7 @@ const EditableSpan = (props: propsType) => {
 
     return (
         edit
-            ? <input value={LocalTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus />
+            ? <input value={LocalTitle} onChange={onChangeHandler} onBlur={onBlurHandlerFALSE} autoFocus/>
             : <span onDoubleClick={onDoubleClickHandlerTRUE}>{props.title}</span>
     );
 };

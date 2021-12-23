@@ -1,13 +1,21 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './Todolist';
+
 import {v1} from 'uuid';
-import Input from "./components/Input";
-import ButtonAppBar from "./components/ButtonAppBar";
+import Input from "./components/Input/Input";
+import ButtonAppBar from "./components/ButtonAppBar/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
+import {TaskType, Todolist} from "./ToDoList";
+import {
+    FilterAC,
+    ReducerAddTodolistAC,
+    ReduceRemoveTodolistAC,
+    ReduceUpdateTodolist,
+    ReduceUpdateTodolistAC
+} from "./reduce-APP";
 
 export type FilterValuesType = "all" | "active" | "completed";
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -22,7 +30,7 @@ function App() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodolistType>>([
+    let [todolists, todolistDispatch] = useReducer(ReduceUpdateTodolist,[
         {id: todolistId1, title: "What to learn", filter: "all"},
         {id: todolistId2, title: "What to buy", filter: "all"}
     ])
@@ -39,7 +47,7 @@ function App() {
     });
 
     const updateTodolist = (todolistId: string, LocalTitle: string) => {
-        setTodolists(todolists.map(m => m.id === todolistId ? {...m, title: LocalTitle} : m))
+        todolistDispatch(ReduceUpdateTodolistAC(todolistId, LocalTitle))
     }
 
     const updateTask = (todolistId: string, id: string, LocalTitle: string) => {
@@ -57,10 +65,8 @@ function App() {
     }
 
     const addTodolist = (title: string) => {
-        let newID = v1()
-        let newTodo: TodolistType = {id: newID, title: title, filter: "all"};
-        setTodolists([newTodo, ...todolists])
-        setTasks({...tasks, [newID]: []})
+        todolistDispatch(ReducerAddTodolistAC(title))
+        // setTasks({...tasks, [newID]: []})
     }
 
     function addTask(title: string, todolistId: string) {
@@ -87,20 +93,15 @@ function App() {
     }
 
     function changeFilter(value: FilterValuesType, todolistId: string) {
-        let todolist = todolists.find(tl => tl.id === todolistId);
-        if (todolist) {
-            todolist.filter = value;
-            setTodolists([...todolists])
-        }
+        todolistDispatch(FilterAC(value, todolistId))
     }
 
     function removeTodolist(id: string) {
-        // засунем в стейт список тудулистов, id которых не равны тому, который нужно выкинуть
-        setTodolists(todolists.filter(tl => tl.id != id));
-        // удалим таски для этого тудулиста из второго стейта, где мы храним отдельно таски
-        delete tasks[id]; // удаляем св-во из объекта... значением которого являлся массив тасок
-        // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
-        setTasks({...tasks});
+        todolistDispatch(ReduceRemoveTodolistAC(id))
+        // // удалим таски для этого тудулиста из второго стейта, где мы храним отдельно таски
+        // delete tasks[id]; // удаляем св-во из объекта... значением которого являлся массив тасок
+        // // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
+        // setTasks({...tasks});
     }
 
     return (
