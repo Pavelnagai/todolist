@@ -12,7 +12,15 @@ import {
     ReduceRemoveTodolistAC,
     ReduceUpdateTodolist,
     ReduceUpdateTodolistAC
-} from "./reduce-APP";
+} from "./Reducers/Reducer-Todolist";
+import {
+    addTaskAC,
+    changeStatusAC,
+    ReducerTasks,
+    removeTaskAC,
+    removeTodolistAC,
+    updateTaskAC
+} from "./Reducers/Reducer-tasks";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
@@ -21,7 +29,7 @@ export type TodolistType = {
     filter: FilterValuesType
 }
 
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -30,12 +38,12 @@ function App() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
-    let [todolists, todolistDispatch] = useReducer(ReduceUpdateTodolist,[
+    let [todolists, todolistDispatch] = useReducer(ReduceUpdateTodolist, [
         {id: todolistId1, title: "What to learn", filter: "all"},
         {id: todolistId2, title: "What to buy", filter: "all"}
     ])
 
-    let [tasks, setTasks] = useState<TasksStateType>({
+    let [tasks, tasksDispatch] = useReducer(ReducerTasks, {
         [todolistId1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true}
@@ -51,17 +59,11 @@ function App() {
     }
 
     const updateTask = (todolistId: string, id: string, LocalTitle: string) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(m => m.id === id ? {...m, title: LocalTitle} : m)})
-        console.log(LocalTitle)
+        tasksDispatch(updateTaskAC(todolistId, id, LocalTitle))
     }
 
     function removeTask(id: string, todolistId: string) {
-        //достанем нужный массив по todolistId:
-        let todolistTasks = tasks[todolistId];
-        // перезапишем в этом объекте массив для нужного тудулиста отфилтрованным массивом:
-        tasks[todolistId] = todolistTasks.filter(t => t.id != id);
-        // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
-        setTasks({...tasks});
+        tasksDispatch(removeTaskAC(id, todolistId))
     }
 
     const addTodolist = (title: string) => {
@@ -70,27 +72,13 @@ function App() {
     }
 
     function addTask(title: string, todolistId: string) {
-        let task = {id: v1(), title: title, isDone: false};
-        //достанем нужный массив по todolistId:
-        let todolistTasks = tasks[todolistId];
-        // перезапишем в этом объекте массив для нужного тудулиста копией, добавив в начало новую таску:
-        tasks[todolistId] = [task, ...todolistTasks];
-        // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
-        setTasks({...tasks});
+        tasksDispatch(addTaskAC(title, todolistId))
     }
 
     function changeStatus(id: string, isDone: boolean, todolistId: string) {
-        //достанем нужный массив по todolistId:
-        let todolistTasks = tasks[todolistId];
-        // найдём нужную таску:
-        let task = todolistTasks.find(t => t.id === id);
-        //изменим таску, если она нашлась
-        if (task) {
-            task.isDone = isDone;
-            // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
-            setTasks({...tasks});
-        }
+        tasksDispatch(changeStatusAC(id, isDone, todolistId))
     }
+
 
     function changeFilter(value: FilterValuesType, todolistId: string) {
         todolistDispatch(FilterAC(value, todolistId))
@@ -98,10 +86,7 @@ function App() {
 
     function removeTodolist(id: string) {
         todolistDispatch(ReduceRemoveTodolistAC(id))
-        // // удалим таски для этого тудулиста из второго стейта, где мы храним отдельно таски
-        // delete tasks[id]; // удаляем св-во из объекта... значением которого являлся массив тасок
-        // // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
-        // setTasks({...tasks});
+        tasksDispatch(removeTodolistAC(id))
     }
 
     return (
@@ -110,7 +95,7 @@ function App() {
             <ButtonAppBar/>
 
             <Container fixed>
-                <Grid container style={{padding:"20px"}}>
+                <Grid container style={{padding: "20px"}}>
                     <Input callback={(title) => addTodolist(title)}/>
                 </Grid>
 

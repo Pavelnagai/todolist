@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilterValuesType, TodolistType} from "./App";
+import {FilterValuesType, TodolistType} from "../App";
 import {v1} from "uuid";
 
 type tsarType = ReduceUpdateTodolistACType | ReducerAddTodolistAC
@@ -30,6 +30,9 @@ export const ReduceUpdateTodolist = (state: TodolistType[], action: tsarType) =>
     }
 };
 type ReduceUpdateTodolistACType = ReturnType<typeof ReduceUpdateTodolistAC>
+type ReducerAddTodolistAC = ReturnType<typeof ReducerAddTodolistAC>
+type ReduceRemoveTodolistType = ReturnType<typeof ReduceRemoveTodolistAC>
+type FilterACType = ReturnType<typeof FilterAC>
 export const ReduceUpdateTodolistAC = (todolistId: string, LocalTitle: string) => {
     return {
         type: "UPDATE-TODOLIST",
@@ -39,7 +42,6 @@ export const ReduceUpdateTodolistAC = (todolistId: string, LocalTitle: string) =
         }
     } as const
 }
-type ReducerAddTodolistAC = ReturnType<typeof ReducerAddTodolistAC>
 export const ReducerAddTodolistAC = (title: string) => {
     return {
         type: 'ADD_TODOLIST',
@@ -48,7 +50,6 @@ export const ReducerAddTodolistAC = (title: string) => {
         }
     } as const
 }
-type ReduceRemoveTodolistType = ReturnType<typeof ReduceRemoveTodolistAC>
 export const ReduceRemoveTodolistAC = (id: string) => {
     return {
         type: 'REMOVE-TODOLIST',
@@ -57,7 +58,6 @@ export const ReduceRemoveTodolistAC = (id: string) => {
         }
     } as const
 }
-type FilterACType = ReturnType<typeof FilterAC>
 export const FilterAC = (value: FilterValuesType, todolistId: string) => {
     return {
         type: 'CHANGE-FILTER',
@@ -67,3 +67,6 @@ export const FilterAC = (value: FilterValuesType, todolistId: string) => {
         }
     } as const
 }
+
+
+
