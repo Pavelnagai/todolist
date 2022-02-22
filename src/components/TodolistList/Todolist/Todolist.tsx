@@ -1,15 +1,24 @@
-import React, {useCallback} from 'react';
-import {FilterValuesType} from '../../App';
-import {AddItemForm} from '../AddItemForm/AddItemForm';
-import {EditableSpan} from '../EditableSpan/EditableSpan';
+import React, {useCallback, useEffect} from 'react';
+import {AddItemForm} from '../../AddItemForm/AddItemForm';
+import {EditableSpan} from '../../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import {Task} from "../Task/Task";
+import {Task} from "../../Task/Task";
+import {useDispatch} from "react-redux";
+import {fetchTaskTC} from "../../../state/tasks/tasks-reducer";
+import {FilterValuesType, TaskStatuses} from "../../../api/todolist-api";
 
 export type TaskType = {
+    addedDate: string
+    deadline: null
+    description: null
     id: string
+    order: number
+    priority: number
+    startDate: null
+    status: number
     title: string
-    isDone: boolean
+    todoListId: string
 }
 
 type PropsType = {
@@ -27,8 +36,11 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) => {
-    console.log('Todolist render')
+    const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(fetchTaskTC(props.id))
+    }, [])
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id);
     }, [props.addTask, props.id])
@@ -53,10 +65,10 @@ export const Todolist = React.memo((props: PropsType) => {
     let tasksForTodolist = props.tasks
 
     if (props.filter === 'active') {
-        tasksForTodolist = props.tasks.filter(t => t.isDone === false)
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
     if (props.filter === 'completed') {
-        tasksForTodolist = props.tasks.filter(t => t.isDone === true)
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>

@@ -1,7 +1,8 @@
-import {combineReducers, createStore} from "redux";
-import {todolistsReducer} from "./todolists-reducer";
-import {tasksReducer} from "./tasks-reducer";
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import {todolistsReducer} from "../todolists/todolists-reducer";
+import {tasksReducer} from "../tasks/tasks-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
+import thunk from "redux-thunk";
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 const rootReducer = combineReducers({
@@ -10,7 +11,7 @@ const rootReducer = combineReducers({
 })
 
 
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer,applyMiddleware(thunk))
 
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
