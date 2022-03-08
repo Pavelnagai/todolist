@@ -8,7 +8,7 @@ import {TaskStatuses} from "../../api/todolist-api";
 type TaskTypeProps = {
     removeTask: (taskId: string, todolistId: string) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     task: TaskType
     todolistId: string
 }
@@ -17,7 +17,7 @@ export const Task = (props: TaskTypeProps) => {
     const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        props.changeTaskStatus(props.task.id, newIsDoneValue, props.todolistId);
+        props.changeTaskStatus(props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId);
     }
     const onTitleChangeHandler = useCallback((newValue: string) => {
         props.changeTaskTitle(props.task.id, newValue, props.todolistId);

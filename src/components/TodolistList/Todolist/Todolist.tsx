@@ -6,19 +6,19 @@ import {Delete} from '@material-ui/icons';
 import {Task} from "../../Task/Task";
 import {useDispatch} from "react-redux";
 import {fetchTaskTC} from "../../../state/tasks/tasks-reducer";
-import {FilterValuesType, TaskStatuses} from "../../../api/todolist-api";
+import {FilterValuesType, TaskPriorities, TaskStatuses} from "../../../api/todolist-api";
 
 export type TaskType = {
-    addedDate: string
-    deadline: null
-    description: null
-    id: string
-    order: number
-    priority: number
-    startDate: null
-    status: number
+    description: string
     title: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
+    id: string
     todoListId: string
+    order: number
+    addedDate: string
 }
 
 type PropsType = {
@@ -28,7 +28,7 @@ type PropsType = {
     removeTask: (taskId: string, todolistId: string) => void
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
     filter: FilterValuesType

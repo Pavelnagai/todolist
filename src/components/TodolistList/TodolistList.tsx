@@ -3,15 +3,16 @@ import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {useAppSelector} from "../../state/store/store";
-import {FilterValuesType, TodolistDomainType} from "../../api/todolist-api";
+import {FilterValuesType, TaskStatuses, TodolistDomainType} from "../../api/todolist-api";
 import {
     addTaskThunkCreator,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskThunkCreator, TasksStateType
+    removeTaskThunkCreator,
+    TasksStateType,
+    updateTaskTC
 } from "../../state/tasks/tasks-reducer";
 import {
-    changeTodolistFilterAC, fetchTodolistsTC,
+    changeTodolistFilterAC,
+    fetchTodolistsTC,
     removeTodolistTC,
     setTodolistTC,
     updateTodolist
@@ -35,12 +36,12 @@ const TodolistList = () => {
         dispatch(addTaskThunkCreator(todolistId, title))
     }, [dispatch])
 
-    const changeStatus = useCallback((id: string, isDone: boolean, todolistId: string) => {
-        dispatch(changeTaskStatusAC(id, isDone, todolistId))
+    const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(updateTaskTC(id, {status}, todolistId))
     }, [dispatch])
 
     const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(changeTaskTitleAC(id, newTitle, todolistId))
+        dispatch(updateTaskTC(id, {title:newTitle}, todolistId))
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
