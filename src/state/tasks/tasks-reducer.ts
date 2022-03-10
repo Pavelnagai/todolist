@@ -94,7 +94,9 @@ export const addTaskThunkCreator = (todolistId: string, title: string) => {
     return (dispatch: Dispatch) => {
         todolistAPI.setTask(todolistId, title)
             .then((res) => {
-                dispatch(addTaskAC(res.data.data.item))
+                if (res.data.resultCode === 0) {
+                    dispatch(addTaskAC(res.data.data.item))
+                }
             })
     }
 }
@@ -103,7 +105,9 @@ export const removeTaskThunkCreator = (todolistId: string, taskId: string) => {
     return (dispatch: Dispatch) => {
         todolistAPI.removeTask(todolistId, taskId)
             .then((res) => {
-                dispatch(removeTaskAC(taskId, todolistId))
+                if (res.data.resultCode === 0) {
+                    dispatch(removeTaskAC(taskId, todolistId))
+                }
             })
     }
 }
@@ -129,8 +133,9 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
         todolistAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
-                debugger
-                dispatch(updateTaskAC(taskId, domainModel, todolistId))
+                if (res.data.resultCode === 0) {
+                    dispatch(updateTaskAC(taskId, domainModel, todolistId))
+                }
             })
     }
 

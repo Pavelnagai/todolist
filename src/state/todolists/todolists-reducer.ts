@@ -96,7 +96,9 @@ export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch) => {
         todolistAPI.removeTodolist(todolistId)
             .then((res) => {
-                dispatch(removeTodolistAC(todolistId))
+                if (res.data.resultCode === 0) {
+                    dispatch(removeTodolistAC(todolistId))
+                }
             })
     }
 }
@@ -105,7 +107,9 @@ export const updateTodolist = (todolistId: string, title: string) => {
     return (dispatch: Dispatch) => {
         todolistAPI.updateTodolist(todolistId, title)
             .then((res) => {
-                dispatch(changeTodolistTitleAC(todolistId, title))
+                if (res.data.resultCode === 0) {
+                    dispatch(changeTodolistTitleAC(todolistId, title))
+                }
             })
     }
 }
