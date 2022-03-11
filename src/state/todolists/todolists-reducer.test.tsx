@@ -7,7 +7,7 @@ import {
     todolistsReducer
 } from './todolists-reducer';
 import {v1} from 'uuid';
-import {FilterValuesType} from '../../App';
+import {FilterValuesType} from '../../app/App';
 import {TodolistDomainType} from "../../api/todolist-api";
 
 test('correct todolist should be removed', () => {
