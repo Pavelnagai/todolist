@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography/Typography';
 import Button from '@material-ui/core/Button/Button';
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Container fixed>
                 <TodolistList/>
             </Container>
+           <ErrorSnackbar/>
         </div>
     );
 }
