@@ -1,5 +1,5 @@
 import {
-    AddTodolistActionType,
+    AddTodolistActionType, changeEntityStatusTodolistAC, ChangeEntityStatusTodolistType,
     RemoveTodolistActionType,
     SetTodolistsActionType,
     TodolistActionsType
@@ -15,7 +15,6 @@ const initialState: TasksStateType = {}
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
-
             const stateCopy = {...state};
             const tasks = state[action.payload.todolistId];
             const filteredTasks = tasks.filter(t => t.id !== action.payload.taskId)
@@ -195,6 +194,7 @@ type ActionsType =
     | RemoveTodolistActionType
     | SetTodolistsActionType
     | TodolistActionsType
+    | ChangeEntityStatusTodolistType
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>

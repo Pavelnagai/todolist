@@ -38,17 +38,7 @@ export const todolistAPI = {
 }
 
 
-export type TodolistType = {
-    addedDate: string
-    id: string
-    order: number
-    title: string
-}
 
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistDomainType = TodolistType & {
-    filter: FilterValuesType,
-}
 
 
 export enum TaskStatuses {

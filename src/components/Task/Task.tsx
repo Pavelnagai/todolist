@@ -30,7 +30,7 @@ export const Task = (props: TaskTypeProps) => {
         />
 
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-        <IconButton onClick={onClickHandler}>
+        <IconButton onClick={onClickHandler} >
             <Delete/>
         </IconButton>
     </div>

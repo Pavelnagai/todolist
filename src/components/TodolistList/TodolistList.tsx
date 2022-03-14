@@ -3,7 +3,7 @@ import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {useAppSelector} from "../../state/store/store";
-import {FilterValuesType, TaskStatuses, TodolistDomainType} from "../../api/todolist-api";
+import {TaskStatuses} from "../../api/todolist-api";
 import {
     addTaskThunkCreator,
     removeTaskThunkCreator,
@@ -13,8 +13,10 @@ import {
 import {
     changeTodolistFilterAC,
     fetchTodolistsTC,
+    FilterValuesType,
     removeTodolistTC,
     setTodolistTC,
+    TodolistDomainType,
     updateTodolist
 } from "../../state/todolists/todolists-reducer";
 import {useDispatch} from "react-redux";
@@ -26,7 +28,7 @@ const TodolistList = () => {
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
-    }, [])
+    }, [dispatch])
 
     const removeTask = useCallback((id: string, todolistId: string) => {
         dispatch(removeTaskThunkCreator(todolistId, id))
@@ -73,6 +75,7 @@ const TodolistList = () => {
                                     key={tl.id}
                                     id={tl.id}
                                     title={tl.title}
+                                    entityStatus={tl.entityStatus}
                                     tasks={tasks[tl.id]}
                                     removeTask={removeTask}
                                     changeFilter={changeFilter}
