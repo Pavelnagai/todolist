@@ -1,6 +1,8 @@
 import {Dispatch} from 'redux';
 import {AppActionsType, RequestStatusType, setAppStatus, setError} from "../app/app-reducer";
 import {todolistAPI} from "../../api/todolist-api";
+import {AxiosError} from "axios";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 
 const initialState: Array<TodolistDomainType> = []
@@ -79,7 +81,12 @@ export const fetchTodolistsTC = () => {
         todolistAPI.getTodolists()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data))
-                dispatch(setAppStatus('succeeded'))
+            })
+            .catch((err: AxiosError) => {
+                dispatch(setError(err.message))
+            })
+            .finally(() => {
+                dispatch(dispatch(setAppStatus('idle')))
             })
     }
 }
@@ -91,12 +98,15 @@ export const setTodolistTC = (title: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(addTodolistAC(res.data.data.item))
-                    dispatch(setAppStatus('succeeded'))
                 } else {
-                    dispatch(setError(res.data.messages[0]))
-                    dispatch(setAppStatus('failed'))
+                    handleServerAppError(dispatch, res.data)
                 }
-
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(dispatch, err.message)
+            })
+            .finally(() => {
+                dispatch(dispatch(setAppStatus('idle')))
             })
     }
 }
@@ -109,9 +119,13 @@ export const removeTodolistTC = (todolistId: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(removeTodolistAC(todolistId))
-                    dispatch(setAppStatus('succeeded'))
                 }
-                dispatch(changeEntityStatusTodolistAC('idle', todolistId))
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(dispatch, err.message)
+            })
+            .finally(() => {
+                dispatch(dispatch(setAppStatus('idle')))
             })
     }
 }
@@ -123,8 +137,13 @@ export const updateTodolist = (todolistId: string, title: string) => {
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(changeTodolistTitleAC(todolistId, title))
-                    dispatch(setAppStatus('succeeded'))
                 }
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(dispatch, err.message)
+            })
+            .finally(() => {
+                dispatch(dispatch(setAppStatus('idle')))
             })
     }
 }

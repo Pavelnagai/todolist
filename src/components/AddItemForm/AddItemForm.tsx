@@ -8,7 +8,7 @@ type AddItemFormPropsType = {
     entityStatus?: RequestStatusType
 }
 
-export const AddItemForm = React.memo( (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     console.log('AddItemForm render')
 
     let [title, setTitle] = useState("")
@@ -28,7 +28,7 @@ export const AddItemForm = React.memo( (props: AddItemFormPropsType) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (error !== null){
+        if (error !== null) {
             setError(null);
         }
         if (e.charCode === 13) {
@@ -44,11 +44,12 @@ export const AddItemForm = React.memo( (props: AddItemFormPropsType) => {
                    onKeyPress={onKeyPressHandler}
                    label="Title"
                    helperText={error}
+                   disabled={props.entityStatus === 'loading'}
         />
         <IconButton color="primary" onClick={addItem}
                     disabled={props.entityStatus === 'loading'}
         >
-            <AddBox />
+            <AddBox/>
         </IconButton>
     </div>
 })

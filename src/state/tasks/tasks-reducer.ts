@@ -9,6 +9,8 @@ import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, todolistAPI, UpdateTaskModelType} from "../../api/todolist-api";
 import {AppRootStateType} from "../store/store";
 import {setAppStatus, setError} from "../app/app-reducer";
+import {AxiosError} from "axios";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 
 const initialState: TasksStateType = {}
@@ -113,6 +115,12 @@ export const fetchTaskTC = (todolistID: string) => (dispatch: Dispatch) => {
             dispatch(setTaskAC(todolistID, res.data.items))
             dispatch(setAppStatus('succeeded'))
         })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(dispatch, err.message)
+        })
+        .finally(() => {
+            dispatch(dispatch(setAppStatus('idle')))
+        })
 }
 
 
@@ -125,9 +133,14 @@ export const addTaskThunkCreator = (todolistId: string, title: string) => {
                     dispatch(addTaskAC(res.data.data.item))
                     dispatch(setAppStatus('succeeded'))
                 } else {
-                    dispatch(setError(res.data.messages[0]))
-                    dispatch(setAppStatus('failed'))
+                    handleServerAppError(dispatch, res.data)
                 }
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(dispatch, err.message)
+            })
+            .finally(() => {
+                dispatch(dispatch(setAppStatus('idle')))
             })
     }
 }
@@ -141,6 +154,12 @@ export const removeTaskThunkCreator = (todolistId: string, taskId: string) => {
                     dispatch(removeTaskAC(taskId, todolistId))
                     dispatch(setAppStatus('succeeded'))
                 }
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(dispatch, err.message)
+            })
+            .finally(() => {
+                dispatch(dispatch(setAppStatus('idle')))
             })
     }
 }
