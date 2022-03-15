@@ -109,6 +109,7 @@ export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, t
     } as const)
 
 export const fetchTaskTC = (todolistID: string) => (dispatch: Dispatch) => {
+
     dispatch(setAppStatus('loading'))
     todolistAPI.getTask(todolistID)
         .then((res) => {
@@ -189,6 +190,12 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                     dispatch(updateTaskAC(taskId, domainModel, todolistId))
                     dispatch(setAppStatus('succeeded'))
                 }
+            })
+            .catch(() => {
+
+            })
+            .finally(() => {
+                dispatch(setAppStatus('idle'))
             })
     }
 

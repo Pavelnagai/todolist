@@ -11,7 +11,10 @@ import Typography from '@material-ui/core/Typography/Typography';
 import Button from '@material-ui/core/Button/Button';
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
-import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar';
+import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar';
+import {Navigate, Route, Routes} from 'react-router-dom';
+import {Login} from '../components/login/Login';
+import Error404 from "../components/Error404/Error404";
 
 
 function App() {
@@ -31,9 +34,14 @@ function App() {
             </AppBar>
             {status === 'loading' && <LinearProgress color="secondary"/>}
             <Container fixed>
-                <TodolistList/>
+                <Routes>
+                    <Route path={'/'} element={<TodolistList/>}/>
+                    <Route path={'login'} element={<Login/>}/>
+                    <Route path={'404'} element={<Error404/>}/>
+                    <Route path={'*'} element={<Navigate to='404'/>}/>
+                </Routes>
             </Container>
-           <ErrorSnackbar/>
+            <ErrorSnackbar/>
         </div>
     );
 }

@@ -76,6 +76,7 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
 
 
 export const fetchTodolistsTC = () => {
+
     return (dispatch: Dispatch) => {
         dispatch(setAppStatus('loading'))
         todolistAPI.getTodolists()
@@ -92,6 +93,7 @@ export const fetchTodolistsTC = () => {
 }
 
 export const setTodolistTC = (title: string) => {
+
     return (dispatch: Dispatch<TodolistActionsType>) => {
         dispatch(setAppStatus('loading'))
         todolistAPI.createTodolist(title)
