@@ -1,5 +1,7 @@
 import {
-    AddTodolistActionType, changeEntityStatusTodolistAC, ChangeEntityStatusTodolistType,
+    AddTodolistActionType,
+    ChangeEntityStatusTodolistType,
+    ClearTodolistType,
     RemoveTodolistActionType,
     SetTodolistsActionType,
     TodolistActionsType
@@ -8,7 +10,7 @@ import {TaskType} from "../../components/TodolistList/Todolist/Todolist";
 import {Dispatch} from "redux";
 import {TaskPriorities, TaskStatuses, todolistAPI, UpdateTaskModelType} from "../../api/todolist-api";
 import {AppRootStateType} from "../store/store";
-import {setAppStatus, setError} from "../app/app-reducer";
+import {setAppStatus} from "../app/app-reducer";
 import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
@@ -65,6 +67,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                 [action.payload.todolistId]: state[action.payload.todolistId]
                     .map(t => t.id === action.payload.taskId ? {...t, ...action.payload.model} : t)
             }
+        case "CLEAR-TODOLIST":
+            return {}
         default:
             return state
     }
@@ -221,6 +225,7 @@ type ActionsType =
     | SetTodolistsActionType
     | TodolistActionsType
     | ChangeEntityStatusTodolistType
+    | ClearTodolistType
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>

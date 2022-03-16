@@ -3,6 +3,7 @@ import {AppActionsType, RequestStatusType, setAppStatus, setError} from "../app/
 import {todolistAPI} from "../../api/todolist-api";
 import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {fetchTaskTC} from "../tasks/tasks-reducer";
 
 
 const initialState: Array<TodolistDomainType> = []
@@ -34,6 +35,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
                 ...tl,
                 entityStatus: action.payload.entityStatus
             } : tl)
+        case "CLEAR-TODOLIST":
+            return []
         default:
             return state
     }
@@ -74,14 +77,20 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
     }
 } as const)
 
+export const clearTodolist = () => ({type: 'CLEAR-TODOLIST'} as const)
 
 export const fetchTodolistsTC = () => {
-
-    return (dispatch: Dispatch) => {
+    return (dispatch: any) => {
         dispatch(setAppStatus('loading'))
         todolistAPI.getTodolists()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data))
+                return res.data
+            })
+            .then((todos) => {
+                todos.forEach(el => {
+                    dispatch(fetchTaskTC(el.id))
+                })
             })
             .catch((err: AxiosError) => {
                 dispatch(setError(err.message))
@@ -158,11 +167,13 @@ export type TodolistActionsType =
     | SetTodolistsActionType
     | AppActionsType
     | ChangeEntityStatusTodolistType
+    | ClearTodolistType
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>;
 export type ChangeEntityStatusTodolistType = ReturnType<typeof changeEntityStatusTodolistAC>
+export type ClearTodolistType = ReturnType<typeof clearTodolist>
 
 export type TodolistType = {
     addedDate: string
