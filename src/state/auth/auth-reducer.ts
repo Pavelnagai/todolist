@@ -2,7 +2,7 @@ import {Dispatch} from 'redux'
 import {AppActionsType, setAppStatus} from "../app/app-reducer";
 import {AuthApi, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError} from "axios";
+import axios from "axios";
 import {clearTodolist, ClearTodolistType} from "../todolists/todolists-reducer";
 
 const initialState = {
@@ -22,40 +22,42 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatus('loading'))
-    AuthApi.login(data)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(true))
-            } else {
-                handleServerAppError(dispatch, res.data)
-            }
-        })
-        .catch((err: AxiosError) => {
+export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch<ActionsType>) => {
+    try {
+        dispatch(setAppStatus('loading'))
+        const res = await AuthApi.login(data)
+        if (res.data.resultCode === 0) {
+            dispatch(setIsLoggedInAC(true))
+        } else {
+            handleServerAppError(dispatch, res.data)
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
             handleServerNetworkError(dispatch, err.message)
-        })
-        .finally(() => {
-            dispatch(dispatch(setAppStatus('idle')))
-        })
+        }
+    } finally {
+        dispatch(dispatch(setAppStatus('idle')))
+    }
 }
 
-export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatus('loading'))
-    AuthApi.logout()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(false))
-                dispatch(setAppStatus('succeeded'))
-                dispatch(clearTodolist())
-            } else {
-                handleServerAppError(dispatch, res.data)
-            }
-        })
-        .catch((error) => {
-            handleServerNetworkError(dispatch, error.message)
-        })
+export const logoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
+    try {
+        dispatch(setAppStatus('loading'))
+        const res = await AuthApi.logout()
+        if (res.data.resultCode === 0) {
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setAppStatus('succeeded'))
+            dispatch(clearTodolist())
+        } else {
+            handleServerAppError(dispatch, res.data)
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            handleServerNetworkError(dispatch, err.message)
+        }
+    } finally {
+        dispatch(dispatch(setAppStatus('idle')))
+    }
 }
-
 
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType | ClearTodolistType

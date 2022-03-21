@@ -1,6 +1,8 @@
 import {Dispatch} from "redux"
 import {AuthApi} from "../../api/todolist-api";
 import {setIsLoggedInAC} from "../auth/auth-reducer";
+import {handleServerNetworkError} from "../../utils/error-utils";
+import axios from "axios";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -46,14 +48,20 @@ export const setIsInitializedAC = (isInitialized: boolean) => ({
     }
 } as const)
 
-export const initializeAppTC = () => (dispatch: Dispatch) => {
-    AuthApi.me().then(res => {
+export const initializeAppTC = () => async (dispatch: Dispatch) => {
+    try {
+        const res = await AuthApi.me()
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedInAC(true));
         }
-    }).finally(() => {
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            debugger
+            handleServerNetworkError(dispatch, err.message)
+        }
+    } finally {
         dispatch(setIsInitializedAC(true))
-    })
+    }
 }
 
 export type SetInitializedType = ReturnType<typeof setIsInitializedAC>
