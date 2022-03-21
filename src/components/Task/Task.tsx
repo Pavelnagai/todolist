@@ -2,8 +2,7 @@ import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
-import {TaskType} from "../TodolistList/Todolist/Todolist";
-import {TaskStatuses} from "../../api/todolist-api";
+import {TaskStatuses, TaskType} from "../../api/todolist-api";
 
 type TaskTypeProps = {
     removeTask: (taskId: string, todolistId: string) => void
@@ -30,7 +29,7 @@ export const Task = (props: TaskTypeProps) => {
         />
 
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-        <IconButton onClick={onClickHandler} >
+        <IconButton onClick={onClickHandler}>
             <Delete/>
         </IconButton>
     </div>

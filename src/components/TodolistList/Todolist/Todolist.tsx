@@ -4,22 +4,9 @@ import {EditableSpan} from '../../EditableSpan/EditableSpan';
 import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
 import {Task} from "../../Task/Task";
-import {TaskPriorities, TaskStatuses} from "../../../api/todolist-api";
+import {TaskStatuses, TaskType} from "../../../api/todolist-api";
 import {FilterValuesType} from "../../../state/todolists/todolists-reducer";
 import {RequestStatusType} from "../../../state/app/app-reducer";
-
-export type TaskType = {
-    description: string
-    title: string
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-}
 
 type PropsType = {
     id: string

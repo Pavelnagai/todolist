@@ -6,9 +6,8 @@ import {
     SetTodolistsActionType,
     TodolistActionsType
 } from '../todolists/todolists-reducer';
-import {TaskType} from "../../components/TodolistList/Todolist/Todolist";
 import {Dispatch} from "redux";
-import {TaskPriorities, TaskStatuses, todolistAPI, UpdateTaskModelType} from "../../api/todolist-api";
+import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../../api/todolist-api";
 import {AppRootStateType} from "../store/store";
 import {setAppStatus} from "../app/app-reducer";
 import {AxiosError} from "axios";
@@ -134,6 +133,7 @@ export const addTaskThunkCreator = (todolistId: string, title: string) => {
         dispatch(setAppStatus('loading'))
         todolistAPI.setTask(todolistId, title)
             .then((res) => {
+                debugger
                 if (res.data.resultCode === 0) {
                     dispatch(addTaskAC(res.data.data.item))
                     dispatch(setAppStatus('succeeded'))
