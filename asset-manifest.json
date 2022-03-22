@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Pavelnagai/todolist/static/css/main.699c27e4.chunk.css",
-    "main.js": "/Pavelnagai/todolist/static/js/main.f9442ac1.chunk.js",
-    "main.js.map": "/Pavelnagai/todolist/static/js/main.f9442ac1.chunk.js.map",
+    "main.js": "/Pavelnagai/todolist/static/js/main.a3ad1579.chunk.js",
+    "main.js.map": "/Pavelnagai/todolist/static/js/main.a3ad1579.chunk.js.map",
     "runtime-main.js": "/Pavelnagai/todolist/static/js/runtime-main.df75faf4.js",
     "runtime-main.js.map": "/Pavelnagai/todolist/static/js/runtime-main.df75faf4.js.map",
     "static/js/2.ef55d5fb.chunk.js": "/Pavelnagai/todolist/static/js/2.ef55d5fb.chunk.js",
     "static/js/2.ef55d5fb.chunk.js.map": "/Pavelnagai/todolist/static/js/2.ef55d5fb.chunk.js.map",
     "index.html": "/Pavelnagai/todolist/index.html",
-    "precache-manifest.ee76080d4d932bf096b87d6f526eeed9.js": "/Pavelnagai/todolist/precache-manifest.ee76080d4d932bf096b87d6f526eeed9.js",
+    "precache-manifest.cf9c1addeca658b5aa7204a620feefac.js": "/Pavelnagai/todolist/precache-manifest.cf9c1addeca658b5aa7204a620feefac.js",
     "service-worker.js": "/Pavelnagai/todolist/service-worker.js",
     "static/css/main.699c27e4.chunk.css.map": "/Pavelnagai/todolist/static/css/main.699c27e4.chunk.css.map",
     "static/js/2.ef55d5fb.chunk.js.LICENSE.txt": "/Pavelnagai/todolist/static/js/2.ef55d5fb.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.df75faf4.js",
     "static/js/2.ef55d5fb.chunk.js",
     "static/css/main.699c27e4.chunk.css",
-    "static/js/main.f9442ac1.chunk.js"
+    "static/js/main.a3ad1579.chunk.js"
   ]
 }
