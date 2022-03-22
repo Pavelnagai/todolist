@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0b68f168553bb344d07547492d5d5747",
+    "revision": "f63a9a7f54a619d19a72fdb47100e1ca",
     "url": "/Pavelnagai/todolist/index.html"
   },
   {
-    "revision": "a9d633461c50876d61b0",
+    "revision": "ca288c17c9a5def1ae4b",
     "url": "/Pavelnagai/todolist/static/css/main.699c27e4.chunk.css"
   },
   {
-    "revision": "0e5cac9a92ab17bea5e3",
-    "url": "/Pavelnagai/todolist/static/js/2.0a89e18e.chunk.js"
+    "revision": "7a5ffb7e42484712589b",
+    "url": "/Pavelnagai/todolist/static/js/2.ef55d5fb.chunk.js"
   },
   {
     "revision": "aaecfbea69e6a3f4baa276a845decd21",
-    "url": "/Pavelnagai/todolist/static/js/2.0a89e18e.chunk.js.LICENSE.txt"
+    "url": "/Pavelnagai/todolist/static/js/2.ef55d5fb.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a9d633461c50876d61b0",
-    "url": "/Pavelnagai/todolist/static/js/main.d16108ac.chunk.js"
+    "revision": "ca288c17c9a5def1ae4b",
+    "url": "/Pavelnagai/todolist/static/js/main.f9442ac1.chunk.js"
   },
   {
     "revision": "56c482187b6d21339ce9",
