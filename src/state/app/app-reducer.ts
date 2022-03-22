@@ -56,7 +56,6 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
         }
     } catch (err) {
         if (axios.isAxiosError(err)) {
-            debugger
             handleServerNetworkError(dispatch, err.message)
         }
     } finally {
