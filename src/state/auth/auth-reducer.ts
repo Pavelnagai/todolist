@@ -1,33 +1,37 @@
 import {Dispatch} from 'redux'
-import {AppActionsType, setAppStatus} from "../app/app-reducer";
+import {setAppStatus} from "../app/app-reducer";
 import {AuthApi, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import axios from "axios";
-import {clearTodolist, ClearTodolistType} from "../todolists/todolists-reducer";
+import {clearTodolist} from "../todolists/todolists-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     isLoggedIn: false
 }
-type InitialStateType = typeof initialState
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
-        default:
-            return state
+const slice = createSlice({
+    name: 'auth',
+    initialState: initialState,
+    reducers: {
+            setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
+                state.isLoggedIn = action.payload.value
+            }
+        }
     }
-}
+)
 
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+export const authReducer = slice.reducer
 
-export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch<ActionsType>) => {
+export const {setIsLoggedInAC} = slice.actions
+
+
+export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setAppStatus('loading'))
+        dispatch(setAppStatus({status:'loading'}))
         const res = await AuthApi.login(data)
         if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
+            dispatch(setIsLoggedInAC({value: true}))
         } else {
             handleServerAppError(dispatch, res.data)
         }
@@ -36,17 +40,17 @@ export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch<Acti
             handleServerNetworkError(dispatch, err.message)
         }
     } finally {
-        dispatch(dispatch(setAppStatus('idle')))
+        dispatch(dispatch(setAppStatus({status: 'idle'})))
     }
 }
 
-export const logoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
+export const logoutTC = () => async (dispatch: Dispatch) => {
     try {
-        dispatch(setAppStatus('loading'))
+        dispatch(setAppStatus({status:'loading'}))
         const res = await AuthApi.logout()
         if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(false))
-            dispatch(setAppStatus('succeeded'))
+            dispatch(setIsLoggedInAC({value: false}))
+            dispatch(setAppStatus({status:'succeeded'}))
             dispatch(clearTodolist())
         } else {
             handleServerAppError(dispatch, res.data)
@@ -56,8 +60,7 @@ export const logoutTC = () => async (dispatch: Dispatch<ActionsType>) => {
             handleServerNetworkError(dispatch, err.message)
         }
     } finally {
-        dispatch(dispatch(setAppStatus('idle')))
+        dispatch(dispatch(setAppStatus({status: 'idle'})))
     }
 }
 
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType | ClearTodolistType
