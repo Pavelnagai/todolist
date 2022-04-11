@@ -35,7 +35,6 @@ function App() {
         </div>
     }
     const logoutHandler = () => {
-        debugger
         dispatch(logoutTC())
     }
     return (

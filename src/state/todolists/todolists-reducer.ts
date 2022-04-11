@@ -6,8 +6,6 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RequestStatusType, setAppStatus} from '../app/app-reducer';
 
 
-const initialState: Array<TodolistDomainType> = []
-
 export const fetchTodolistsTC = createAsyncThunk("todolist-fetchTodolists",
     async (param, thunkAPI) => {
         try {
@@ -84,7 +82,7 @@ export const updateTodolist = createAsyncThunk('todolist-update', async (param: 
 
 const slice = createSlice({
     name: "todolist",
-    initialState: initialState,
+    initialState: <Array<TodolistDomainType>>[],
     reducers: {
         removeTodolistAC(state, action: PayloadAction<{ todolistId: string }>) {
             const index = state.findIndex(tl => tl.id === action.payload.todolistId)

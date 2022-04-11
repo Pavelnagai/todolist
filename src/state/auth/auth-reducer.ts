@@ -21,7 +21,6 @@ export const loginTC = createAsyncThunk('auth/login', async (data: LoginParamsTy
         }
     }
 })
-
 export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkApi) => {
     try {
         thunkApi.dispatch(setAppStatus({status: 'loading'}))
