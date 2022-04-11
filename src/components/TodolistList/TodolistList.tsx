@@ -34,36 +34,36 @@ const TodolistList = () => {
         }
     }, [dispatch])
 
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        dispatch(removeTaskThunkCreator(todolistId, id))
+    const removeTask = useCallback((taskId: string, todolistId: string) => {
+        dispatch(removeTaskThunkCreator({todolistId, taskId}))
     }, [dispatch])
 
     const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(addTaskThunkCreator(todolistId, title))
+        dispatch(addTaskThunkCreator({todolistId, title}))
     }, [dispatch])
 
-    const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskTC(id, {status}, todolistId))
+    const changeStatus = useCallback((taskId: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(updateTaskTC({taskId, domainModel: {status}, todolistId}))
     }, [dispatch])
 
-    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(updateTaskTC(id, {title: newTitle}, todolistId))
+    const changeTaskTitle = useCallback((taskId: string, title: string, todolistId: string) => {
+        dispatch(updateTaskTC({taskId, domainModel: {title}, todolistId}))
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         dispatch(changeTodolistFilterAC({todolistId, filter: value}))
     }, [dispatch])
 
-    const removeTodolist = useCallback((id: string) => {
-        dispatch(removeTodolistTC(id))
+    const removeTodolist = useCallback((todolistId: string) => {
+        dispatch(removeTodolistTC(todolistId))
     }, [dispatch])
 
-    const changeTodolistTitle = useCallback((id: string, title: string) => {
-        dispatch(updateTodolist(id, title))
+    const changeTodolistTitle = useCallback((todolistId: string, title: string) => {
+        dispatch(updateTodolist({todolistId, title}))
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(setTodolistTC(title))
+        dispatch(setTodolistTC({title}))
     }, [dispatch])
     if (!isLoggedIn) {
         return <Navigate to={'login'}/>
