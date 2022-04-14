@@ -15,7 +15,7 @@ import {
     fetchTodolistsTC,
     FilterValuesType,
     removeTodolistTC,
-    setTodolistTC,
+    addTodolistTC,
     TodolistDomainType,
     updateTodolist
 } from "../../state/todolists/todolists-reducer";
@@ -63,7 +63,7 @@ const TodolistList = () => {
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(setTodolistTC({title}))
+        dispatch(addTodolistTC({title}))
     }, [dispatch])
     if (!isLoggedIn) {
         return <Navigate to={'login'}/>
