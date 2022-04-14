@@ -1,24 +1,24 @@
 import {setAppStatus} from "../app/app-reducer";
 import {AuthApi, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import axios from "axios";
 import {clearTodolist} from "../todolists/todolists-reducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export const loginTC = createAsyncThunk('auth/login', async (data: LoginParamsType, thunkApi) => {
     try {
         thunkApi.dispatch(setAppStatus({status: 'loading'}))
+        debugger
         const res = await AuthApi.login(data)
         if (res.data.resultCode === 0) {
             thunkApi.dispatch(setAppStatus({status: 'succeeded'}))
             return
         } else {
             handleServerAppError(thunkApi.dispatch, res.data)
+            return thunkApi.rejectWithValue(null)
         }
-    } catch (err) {
-        if (axios.isAxiosError(err)) {
-            handleServerNetworkError(thunkApi.dispatch, err.message)
-        }
+    } catch (err: any) {
+        handleServerNetworkError(thunkApi.dispatch, err.message)
+        return thunkApi.rejectWithValue(null)
     }
 })
 export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkApi) => {
@@ -32,12 +32,8 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, thunkApi) 
         } else {
             handleServerAppError(thunkApi.dispatch, res.data)
         }
-    } catch (err) {
-        if (axios.isAxiosError(err)) {
-            handleServerNetworkError(thunkApi.dispatch, err.message)
-        }
-    } finally {
-        thunkApi.dispatch(setAppStatus({status: 'idle'}))
+    } catch (err: any) {
+        handleServerNetworkError(thunkApi.dispatch, err.message)
     }
 })
 
